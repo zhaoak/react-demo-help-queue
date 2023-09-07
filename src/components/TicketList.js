@@ -1,28 +1,11 @@
 import React from "react";
 import Ticket from "./Ticket";
+import PropTypes from "prop-types";
 
-const mainTicketList = [
-  {
-    names: 'Thato and Haley',
-    location: '3A',
-    issue: 'firebase no save record'
-  },
-  {
-    names: 'Donko and Bonko',
-    location: '3B',
-    issue: 'horse crimes'
-  },
-  {
-    names: 'Snuggly and aster',
-    location: 'C54',
-    issue: 'sleeby'
-  }
-];
-
-function TicketList() {
+function TicketList(props) {
   return (
     <React.Fragment>
-      {mainTicketList.map((ticket, index) =>
+      {props.ticketList.map((ticket, index) =>
         <Ticket names={ticket.names}
           location={ticket.location}
           issue={ticket.issue}
@@ -31,5 +14,9 @@ function TicketList() {
     </React.Fragment>
   );
 }
+
+TicketList.propTypes = {
+  ticketList: PropTypes.array
+};
 
 export default TicketList;
