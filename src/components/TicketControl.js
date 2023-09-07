@@ -12,22 +12,23 @@ class TicketControl extends React.Component {
   }
 
   handleClick = () => {
-    this.setState({formVisible: true});
+    this.setState(prevState => ({formVisible: !prevState.formVisible}));
   }
 
   render() {
     let currentlyVisibleState = null;
-    let addTicketButton = null;
+    let buttonText = null;
     if (this.state.formVisible) {
       currentlyVisibleState = <NewTicketForm />
+      buttonText = "Return to ticket list";
     } else {
       currentlyVisibleState = <TicketList />
-      addTicketButton = <button type="button" onClick={this.handleClick}>Add ticket</button>
+      buttonText = "Add ticket";
     }
     return (
       <React.Fragment>
         {currentlyVisibleState}
-        {addTicketButton}
+        <button type="button" onClick={this.handleClick}>{buttonText}</button>
       </React.Fragment>
     );
   }
