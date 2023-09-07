@@ -15,7 +15,18 @@ class TicketControl extends React.Component {
   }
 
   handleClick = () => {
-    this.setState(prevState => ({formVisible: !prevState.formVisible}));
+    if (this.state.selectedTicket != null) {
+      // if toggling back to form
+      this.setState({
+        formVisible: false,
+        selectedTicket: null
+      });
+    } else {
+      // if toggling back to ticket list
+      this.setState(prevState => ({
+        formVisible: !prevState.formVisible
+      }));
+    }
   }
 
   handleAddingNewTicketToList = (newTicket) => {
