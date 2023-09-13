@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 function TicketList(props) {
   return (
     <React.Fragment>
-      {Object.values(props.ticketlist).map((ticket) =>
+      {Object.values(props.ticketList).map((ticket) =>
         <Ticket 
           whenTicketClicked={props.onTicketSelection}
           names={ticket.names}
