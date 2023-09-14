@@ -9,7 +9,7 @@ function TicketDetail(props) {
       <h1>Ticket Details</h1>
         <h3>{ticket.location} - {ticket.names}</h3>
         <p><em>{ticket.issue}</em></p>
-        <button type="button" onClick={props.onClickEdit }>Update Ticket</button>
+        <button type="button" onClick={onClickEdit}>Update Ticket</button>
         <button type="button" onClick={() => onClickDelete(ticket.id)}>Close Ticket</button>
         <hr/>
       <hr/>

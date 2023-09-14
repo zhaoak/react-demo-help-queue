@@ -1,4 +1,6 @@
 import ticketListReducer from '../../reducers/ticket-list-reducer';
+import { formatDistanceToNow } from 'date-fns';
+import { updateTime } from '../../actions/index';
 
 describe('ticketListReducer', () => {
 
@@ -7,6 +9,10 @@ describe('ticketListReducer', () => {
     names: 'Rhone & Remy',
     location: '4b',
     issue: 'hypothetical issue',
+    timeOpen: new Date(),
+    formattedWaitTime: formatDistanceToNow(new Date(), {
+      addSuffix: true
+    }),
     id: 1
   };
 
@@ -31,12 +37,14 @@ describe('ticketListReducer', () => {
 
   // testing adding new ticket to state
   test('Should successfully add new ticket data to mainTicketList', () => {
-    const { names, location, issue, id } = ticketData;
+    const { names, location, issue, id, timeOpen, formattedWaitTime } = ticketData;
     action = {
       type: 'ADD_TICKET',
       names: names,
       location: location,
       issue: issue,
+      timeOpen: timeOpen,
+      formattedWaitTime: formattedWaitTime,
       id: id
     };
     
@@ -45,6 +53,8 @@ describe('ticketListReducer', () => {
         names: names,
         location: location,
         issue: issue,
+        timeOpen: timeOpen,
+        formattedWaitTime: 'less than a minute ago',
         id: id
       }
     });
@@ -63,6 +73,34 @@ describe('ticketListReducer', () => {
         issue: 'hypothetical issue',
         id: 2
       }
+    });
+  });
+
+  // testing timer
+  test('Should add a formatted wait time to ticket entry', () => {
+    const { names, location, issue, timeOpen, id } = ticketData;
+    action = {
+      type: 'UPDATE_TIME',
+      formattedWaitTime: '4 minutes ago',
+      id: id
+    };
+    expect(ticketListReducer({ [id] : ticketData }, action)).toEqual({
+      [id] : {
+        names: names,
+        location: location,
+        issue: issue,
+        timeOpen: timeOpen,
+        id: id,
+        formattedWaitTime: '4 minutes ago'
+      }
+    });
+  });
+
+  test('updateTime should create UPDATE_TIME action', () => {
+    expect(updateTime(1, 'less than a minute ago')).toEqual({
+      type: 'UPDATE_TIME',
+      id: 1,
+      formattedWaitTime: 'less than a minute ago'
     });
   });
 
