@@ -11,7 +11,6 @@ class TicketControl extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      formVisible: false,
       selectedTicket: null,
       editing: false
     };
@@ -21,18 +20,16 @@ class TicketControl extends React.Component {
     if (this.state.selectedTicket != null) {
       // if toggling back to form
       this.setState({
-        formVisible: false,
         selectedTicket: null,
         editing: false
       });
     } else {
-      // if toggling back to ticket list
-      this.setState(prevState => ({
-        formVisible: !prevState.formVisible
-      }));
+      const {dispatch} = this.props;
+      const action = { type: 'TOGGLE_FORM' }
+      dispatch(action);
     }
   }
-
+  
   handleAddingNewTicketToList = (newTicket) => {
     const { dispatch } = this.props;
     const { id, names, location, issue } = newTicket;
@@ -44,7 +41,8 @@ class TicketControl extends React.Component {
       issue: issue,
     }
     dispatch(action);
-    this.setState({formVisible: false});
+    const action2 = { type: 'TOGGLE_FORM' }
+    dispatch(action2);
   }
 
   handleChangingSelectedTicket = (id) => {
@@ -101,7 +99,7 @@ class TicketControl extends React.Component {
                                 onClickEdit = {this.handleEditClick} />
       buttonText = "Return to ticket list";
     } 
-    else if (this.state.formVisible) {
+    else if (this.props.formVisibleOnPage) {
       // display ticket submission form
       currentlyVisibleState = <NewTicketForm onNewTicketCreation={this.handleAddingNewTicketToList} />
       buttonText = "Return to ticket list";
@@ -120,12 +118,14 @@ class TicketControl extends React.Component {
 }
 
 TicketControl.propTypes = {
-  mainTicketList: PropTypes.object
+  mainTicketList: PropTypes.object,
+  formVisibleOnPage: PropTypes.bool
 };
 
 const mapStateToProps = state => {
   return {
-    mainTicketList: state
+    mainTicketList: state.mainTicketList,
+    formVisibleOnPage: state.formVisibleOnPage
   }
 }
 
