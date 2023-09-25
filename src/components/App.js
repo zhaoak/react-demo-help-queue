@@ -1,17 +1,18 @@
-import React from "react";
+import React, {useState} from "react";
 import Header from "./Header";
 import TicketControl from "./TicketControl";
 import ToggleTheme from "./ToggleTheme";
+import { ThemeContext, themes } from '../context/theme-context';
 
 function App() {
-  const name = "Thato";
-  const name2 = "Haley";
+  const [theme, setTheme] = useState(themes.light);
+
   return (
-    <React.Fragment>
+    <ThemeContext.Provider value={theme}>
       <Header />
       <ToggleTheme />
       <TicketControl/>
-    </React.Fragment>
+    </ThemeContext.Provider>
   );
 }
 
